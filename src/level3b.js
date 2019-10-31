@@ -54,28 +54,49 @@ const cars = [
 ]
 
 /* Level 3 - Paintings */
-export default function() {
+export default function () {
   const ex1 =
     'Use map to transform the list of auto models to uppercase the first letter of each word'
   const exercise1 = _ => {
-    return []
+    let models = map(x => x.model, cars);
+    return map(x => {
+      if (x.includes(' ')) {
+        let newArr = []
+        let words = x.split(' ')
+        words.forEach(x => {
+          newArr.push(x[0].toUpperCase().concat(x.slice(1)))
+        })
+        return newArr.join(' ')
+      } else {
+        return x[0].toUpperCase().concat(x.slice(1))
+      }
+    }, models)
   }
 
   const ex2 = 'Use filter to return a list of cars made between 2001-2004'
   const exercise2 = _ => {
-    return []
+    return filter(x => x.year >= 2001 && x.year <= 2004, cars)
   }
 
   const ex3 =
     'Use reduce to count the number of cars that were made in the 2000s'
   const exercise3 = _ => {
-    return 0
+    return reduce((x, y) => y.year.toString().startsWith('2') ? x + 1 : x, 0, cars)
   }
 
   const ex4 =
     'Use map, filter and reduce with compose to return the price of the the most expensive car from the 2000s '
   const exercise4 = _ => {
-    return 0
+    let max = 0
+    return compose(reduce((x, y) => {
+      if(y > x) {
+        x = y
+        return x
+      }
+      else {
+        return x
+      }
+    }, 0), map(x => x.salesPrice), filter(x => x.year >= 2000))(cars)
   }
 
   const ex5 = `Use map to transform the salesPrice to USD currency format (ex: $400,000.00)
@@ -83,13 +104,24 @@ export default function() {
     ** Hint: Check MDN for the toLocaleString method on the Number Object **
     `
   const exercise5 = _ => {
-    return []
+    return map(x => `$${x.salesPrice.toLocaleString({style: 'currency', currency: 'USA'})}.00`, cars)
   }
 
   const ex6 = `Use compose and filter to return cars with V8s, map over them and return the names of the cars with the first letter capitalized.`
 
   const exercise6 = _ => {
-    return []
+    return compose(map(x => {
+      if (x.includes(' ')) {
+        let newArr = []
+        let words = x.split(' ')
+        words.forEach(x => {
+          newArr.push(x[0].toUpperCase().concat(x.slice(1)))
+        })
+        return newArr.join(' ')
+      } else {
+        return x[0].toUpperCase().concat(x.slice(1))
+      }
+    }), map(x => x.model), filter(x => x.engine === 'V8'))(cars)
   }
 
   /* tests to validate exercises go here */

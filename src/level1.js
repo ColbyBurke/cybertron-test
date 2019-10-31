@@ -2,24 +2,25 @@ import { test } from 'tape-modern'
 import { map, filter, reduce, compose } from 'ramda'
 import checkPrimes from './lib/checkPrimes'
 
-export default function() {
+export default function () {
   /* Level 1 */
   const ex1 = 'use map to cube (n³) each value and return'
   const exercise1 = _ => {
     const numbers = [3, 6, 9, 12, 15, 18]
-    return [] // return answer here
+
+    return map(x => Math.pow(x, 3), numbers)// return answer here
   }
 
   const ex2 = 'use filter to only return numbers divisible by 6'
   const exercise2 = _ => {
     const numbers = [28, 42, 55, 66, 72, 84, 93]
-    return [] // return answer here
+    return filter(x => x % 6 === 0, numbers) // return answer here
   }
 
   const ex3 = 'use reduce to sum the numbers'
   const exercise3 = _ => {
     const numbers = [10, 20, 30, 40, 50, 60]
-    return 0 // return answer here
+    return reduce((x, y) => x + y, 0, numbers) // return answer here
   }
 
   const ex4 = `use compose to run the following three commands
@@ -30,19 +31,20 @@ export default function() {
 `
   const exercise4 = _ => {
     const numbers = [1, 3, 6, 10, 13, 16]
-    return 0 // return answer here
+    return compose(reduce((x, y) => x + y, 0), filter(x => x % 2 == 0), map(x => x * 3))(numbers) // return answer here
   }
 
   const ex5 = 'Use map to find the square root of each number'
   const exercise5 = _ => {
     const numbers = [9, 16, 25, 36, 49, 64, 81]
-    return [] // return answer here
+    return map(x => Math.sqrt(x), numbers) // return answer here
   }
+
 
   const ex6 = 'use filter to return numbers between 10 and 20'
   const exercise6 = _ => {
     const numbers = [1, 5, 6, 3, 10, 12, 18, 21, 28, 34, 39, 45]
-    return [] // return answer here
+    return filter(x => 10 < x && x < 20, numbers) // return answer here
   }
 
   const ex7 = `use compose and the checkPrimes function to run the following three commands:
@@ -56,8 +58,10 @@ export default function() {
   `
   const exercise7 = _ => {
     const numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    return 0 // return answer here
+    console.log(filter(x => checkPrimes(x), numbers))
+    return compose(reduce((x, y) => y === undefined ? x : x + 1, 0), filter(x => checkPrimes(x)), map(x => x - 1))(numbers) // return answer here
   }
+
 
   /* tests to validate exercises go here */
   test('Level 1', assert => {
